@@ -32,13 +32,13 @@ def optimize(content_targets, style_target, content_weight, style_weight,
     with tf.Graph().as_default(), tf.device('/cpu:0'), tf.Session() as sess:
         style_image = tf.placeholder(tf.float32, shape=style_shape, name='style_image')
         style_image_pre = vgg.preprocess(style_image)
-        net = vgg.net(vgg_path, style_image_pre)
+        net = vgg.net(vgg_path, style_image_pre)  # get vgg layers and combine a net
         style_pre = np.array([style_target])
         for layer in STYLE_LAYERS:
             features = net[layer].eval(feed_dict={style_image:style_pre})
             features = np.reshape(features, (-1, features.shape[3]))
             gram = np.matmul(features.T, features) / features.size
-            style_features[layer] = gram
+            style_features[layer] = gram  # gram calculator
 
     with tf.Graph().as_default(), tf.Session() as sess:
         X_content = tf.placeholder(tf.float32, shape=batch_shape, name="X_content")
