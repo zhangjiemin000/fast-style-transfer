@@ -103,3 +103,5 @@ ENV/
 
 # checkpoint
 checkpoint
+/bin/
+/data/
