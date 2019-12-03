@@ -1,10 +1,12 @@
 from __future__ import print_function
 import sys, os, pdb
-sys.path.insert(0, 'src')
-import numpy as np, scipy.misc 
-from optimize import optimize
 from argparse import ArgumentParser
-from utils import save_img, get_img, exists, list_files
+
+from src.optimize import optimize
+from src.utils import exists, get_img, save_img, list_files
+
+sys.path.insert(0, 'src')
+import numpy as np, scipy.misc
 import evaluate
 
 CONTENT_WEIGHT = 7.5e0
@@ -112,15 +114,16 @@ def _get_files(img_dir):
 def main():
     parser = build_parser()
     options = parser.parse_args()
+    #check the input is right (Parameters)?
     check_opts(options)
-
+    #read the style img. as transfer style
     style_target = get_img(options.style)
-    if not options.slow:
+    if not options.slow:  # for debugging , not support
         content_targets = _get_files(options.train_path)
     elif options.test:
         content_targets = [options.test]
 
-    kwargs = {
+    kwargs = {  # key words
         "slow":options.slow,
         "epochs":options.epochs,
         "print_iterations":options.checkpoint_iterations,
@@ -131,11 +134,11 @@ def main():
 
     if options.slow:
         if options.epochs < 10:
-            kwargs['epochs'] = 1000
+            kwargs['epochs'] = 1000    #default is 1000
         if options.learning_rate < 1:
-            kwargs['learning_rate'] = 1e1
+            kwargs['learning_rate'] = 1e1  #default is 10
 
-    args = [
+    args = [   # parameters
         content_targets,
         style_target,
         options.content_weight,
