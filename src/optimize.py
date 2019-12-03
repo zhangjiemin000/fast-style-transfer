@@ -17,7 +17,7 @@ def optimize(content_targets, style_target, content_weight, style_weight,
              learning_rate=1e-3, debug=False):
     if slow:
         batch_size = 1
-    mod = len(content_targets) % batch_size
+    mod = len(content_targets) % batch_size  # calculator how many bacths in content_targets
     if mod > 0:
         print("Train set has been trimmed slightly..")
         content_targets = content_targets[:-mod] 

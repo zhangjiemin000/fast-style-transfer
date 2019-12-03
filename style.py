@@ -139,7 +139,7 @@ def main():
             kwargs['learning_rate'] = 1e1  #default is 10
 
     args = [   # parameters
-        content_targets,
+        content_targets,   #default is train1024
         style_target,
         options.content_weight,
         options.style_weight,
