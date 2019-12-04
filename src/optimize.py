@@ -20,12 +20,12 @@ def optimize(content_targets, style_target, content_weight, style_weight,
     mod = len(content_targets) % batch_size  # calculator how many bacths in content_targets
     if mod > 0:
         print("Train set has been trimmed slightly..")
-        content_targets = content_targets[:-mod] 
+        content_targets = content_targets[:-mod]   # get 0 - (len - mod) , for integer bacths step
 
     style_features = {}
 
-    batch_shape = (batch_size,256,256,3)
-    style_shape = (1,) + style_target.shape
+    batch_shape = (batch_size,256,256,3)   #input tensor
+    style_shape = (1,) + style_target.shape  #target_tensor
     print(style_shape)
 
     # precompute style features

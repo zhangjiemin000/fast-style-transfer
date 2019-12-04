@@ -31,7 +31,7 @@ def net(data_path, input_image):
     net = {}
     current = input_image
     for i, name in enumerate(layers):
-        kind = name[:4]
+        kind = name[:4] # get net kind, because all net kind is decided by 4 chars from beginning
         if kind == 'conv':
             kernels, bias = weights[i][0][0][0][0]
             # matconvnet: weights are [width, height, in_channels, out_channels]

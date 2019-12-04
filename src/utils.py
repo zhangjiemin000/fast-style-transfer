@@ -1,5 +1,6 @@
 import scipy.misc, numpy as np, os, sys
-from skimage import io
+from skimage import io ,transform
+
 
 def save_img(out_path, img):
     img = np.clip(img, 0, 255).astype(np.uint8)
@@ -7,7 +8,7 @@ def save_img(out_path, img):
 
 def scale_img(style_path, style_scale):
     scale = float(style_scale)
-    o0, o1, o2 = io.imread(style_path, mode='RGB').shape
+    o0, o1, o2 = io.imread(style_path).shape
     scale = float(style_scale)
     new_shape = (int(o0 * scale), int(o1 * scale), o2)
     style_target = _get_img(style_path, img_size=new_shape)
@@ -15,11 +16,11 @@ def scale_img(style_path, style_scale):
 
 def get_img(src, img_size=False):
 
-   img = io.imread(src, mode='RGB') # misc.imresize(, (256, 256, 3))
+   img = io.imread(src) # misc.imresize(, (256, 256, 3))
    if not (len(img.shape) == 3 and img.shape[2] == 3):
        img = np.dstack((img,img,img))
    if img_size != False:
-       img = scipy.misc.imresize(img, img_size)
+       img = transform.resize(img, img_size)
    return img
 
 def exists(p, msg):
