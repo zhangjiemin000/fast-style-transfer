@@ -105,3 +105,4 @@ ENV/
 checkpoint
 /bin/
 /data/
+/checkpoints/
