@@ -14,7 +14,7 @@ DEVICES = 'CUDA_VISIBLE_DEVICES'
 def optimize(content_targets, style_target, content_weight, style_weight,
              tv_weight, vgg_path, epochs=2, print_iterations=1000,
              batch_size=4, save_path='saver/fns.ckpt', slow=False,
-             learning_rate=1e-3, debug=False):
+             learning_rate=1e-3, debug=True):
     if slow:
         batch_size = 1
     mod = len(content_targets) % batch_size  # calculator how many bacths in content_targets
@@ -29,8 +29,8 @@ def optimize(content_targets, style_target, content_weight, style_weight,
     print(style_shape)
 
     # precompute style features
-    with tf.Graph().as_default(), tf.device('/cpu:0'), tf.Session() as sess:
-        style_image = tf.placeholder(tf.float32, shape=style_shape, name='style_image')
+    with tf.Graph().as_default(), tf.device('/cpu:0'), tf.compat.v1.Session() as sess:
+        style_image = tf.compat.v1.placeholder(tf.float32, shape=style_shape, name='style_image')
         style_image_pre = vgg.preprocess(style_image)
         net = vgg.net(vgg_path, style_image_pre)  # get vgg layers and combine a net
         style_pre = np.array([style_target])
@@ -40,8 +40,8 @@ def optimize(content_targets, style_target, content_weight, style_weight,
             gram = np.matmul(features.T, features) / features.size
             style_features[layer] = gram  # gram calculator
 
-    with tf.Graph().as_default(), tf.Session() as sess:
-        X_content = tf.placeholder(tf.float32, shape=batch_shape, name="X_content")
+    with tf.Graph().as_default(), tf.compat.v1.Session() as sess:
+        X_content = tf.compat.v1.placeholder(tf.float32, shape=batch_shape, name="X_content")
         X_pre = vgg.preprocess(X_content)
 
         # precompute content features
@@ -89,8 +89,8 @@ def optimize(content_targets, style_target, content_weight, style_weight,
         loss = content_loss + style_loss + tv_loss
 
         # overall loss
-        train_step = tf.train.AdamOptimizer(learning_rate).minimize(loss)
-        sess.run(tf.global_variables_initializer())
+        train_step = tf.compat.v1.train.AdamOptimizer(learning_rate).minimize(loss)
+        sess.run(tf.compat.v1.global_variables_initializer())
         import random
         uid = random.randint(1, 100)
         print("UID: %s" % uid)

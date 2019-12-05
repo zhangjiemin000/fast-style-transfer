@@ -33,9 +33,9 @@ def ffwd_video(path_in, path_out, checkpoint_dir, device_t='/gpu:0', batch_size=
     soft_config = tf.ConfigProto(allow_soft_placement=True)
     soft_config.gpu_options.allow_growth = True
     with g.as_default(), g.device(device_t), \
-            tf.Session(config=soft_config) as sess:
+            tf.compat.v1.Session(config=soft_config) as sess:
         batch_shape = (batch_size, video_clip.size[1], video_clip.size[0], 3)
-        img_placeholder = tf.placeholder(tf.float32, shape=batch_shape,
+        img_placeholder = tf.compat.v1.placeholder(tf.float32, shape=batch_shape,
                                          name='img_placeholder')
 
         preds = transform.net(img_placeholder)
@@ -89,9 +89,9 @@ def ffwd(data_in, paths_out, checkpoint_dir, device_t='/gpu:0', batch_size=4):
     soft_config = tf.ConfigProto(allow_soft_placement=True)
     soft_config.gpu_options.allow_growth = True
     with g.as_default(), g.device(device_t), \
-            tf.Session(config=soft_config) as sess:
+            tf.compat.v1.Session(config=soft_config) as sess:
         batch_shape = (batch_size,) + img_shape
-        img_placeholder = tf.placeholder(tf.float32, shape=batch_shape,
+        img_placeholder = tf.compat.v1.placeholder(tf.float32, shape=batch_shape,
                                          name='img_placeholder')
 
         preds = transform.net(img_placeholder)
