@@ -132,7 +132,8 @@ def optimize(content_targets, style_target, content_weight, style_weight,
                     _style_loss,_content_loss,_tv_loss,_loss,_preds = tup
                     losses = (_style_loss, _content_loss, _tv_loss, _loss)
                     if slow:
-                       _preds = vgg.unprocess(_preds)
+                        _preds = _preds.reshape((256, 256, 3))
+                        _preds = vgg.unprocess(_preds)
                     else:
                        saver = tf.compat.v1.train.Saver()
                        res = saver.save(sess, save_path)

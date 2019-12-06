@@ -47,7 +47,7 @@ def build_parser():
 
     parser.add_argument('--slow', dest='slow', action='store_true',
                         help='gatys\' approach (for debugging, not supported)',
-                        default=True)
+                        default=False)
 
     parser.add_argument('--epochs', type=int,
                         dest='epochs', help='num epochs',
