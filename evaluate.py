@@ -86,7 +86,7 @@ def ffwd(data_in, paths_out, checkpoint_dir, device_t='/gpu:0', batch_size=4):
     g = tf.Graph()
     batch_size = min(len(paths_out), batch_size)
     curr_num = 0
-    soft_config = tf.ConfigProto(allow_soft_placement=True)
+    soft_config = tf.compat.v1.ConfigProto(allow_soft_placement=True)
     soft_config.gpu_options.allow_growth = True
     with g.as_default(), g.device(device_t), \
             tf.compat.v1.Session(config=soft_config) as sess:
@@ -95,7 +95,7 @@ def ffwd(data_in, paths_out, checkpoint_dir, device_t='/gpu:0', batch_size=4):
                                          name='img_placeholder')
 
         preds = transform.net(img_placeholder)
-        saver = tf.train.Saver()
+        saver = tf.compat.v1.train.Saver()
         if os.path.isdir(checkpoint_dir):
             ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
             if ckpt and ckpt.model_checkpoint_path:
