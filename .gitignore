@@ -106,3 +106,5 @@ checkpoint
 /bin/
 /data/
 /checkpoints/
+/fast_bin/
+/fast_train/
