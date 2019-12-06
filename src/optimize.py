@@ -51,7 +51,7 @@ def optimize(content_targets, style_target, content_weight, style_weight,
 
         if slow:
             preds = tf.Variable(
-                tf.random_normal(X_content.get_shape()) * 0.256
+                tf.random.normal(X_content.get_shape()) * 0.256
             )
             preds_pre = preds
         else:
