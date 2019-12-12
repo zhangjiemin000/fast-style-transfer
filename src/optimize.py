@@ -89,7 +89,7 @@ def optimize(content_targets, style_target, content_weight, style_weight,
         loss = content_loss + style_loss + tv_loss
 
         # overall loss
-        train_step = tf.compat.v1.train.AdamOptimizer(learning_rate).minimize(loss)
+        train_step = tf.compat.v1.train.AdamOptimizer(learning_rate ).minimize(loss)
         sess.run(tf.compat.v1.global_variables_initializer())
         import random
         uid = random.randint(1, 100)
